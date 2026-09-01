@@ -1,18 +1,17 @@
+import { reactCurriculumTopics } from "../topics/react";
 import type { CurriculumTopic } from "../types";
 
 function soon(slug: string, title: string, summary: string): CurriculumTopic {
   return { slug, title, summary, isContentReady: false };
 }
 
-export const reactTopics: CurriculumTopic[] = [
-  soon("react-components", "Components", "Composition, children, and element types."),
-  soon("react-hooks", "Hooks", "useState, useEffect, and the rules of hooks."),
-  soon("react-state", "State management", "Local, lifted, context, and stores."),
-  soon("react-rendering", "Rendering", "Reconciliation, keys, and concurrent features."),
-  soon("react-performance", "Performance", "Memo, lists, and avoiding waterfalls."),
-  soon("react-rsc", "Server Components", "Where work runs and what crosses the wire."),
-  soon("react-architecture", "React architecture", "Boundaries, data, and feature folders."),
-];
+function live(slug: string, title: string, summary: string): CurriculumTopic {
+  return { slug, title, summary, isContentReady: true };
+}
+
+export const reactTopics: CurriculumTopic[] = reactCurriculumTopics.map((topic) =>
+  live(topic.slug, topic.title, topic.summary),
+);
 
 export const angularTopics: CurriculumTopic[] = [
   soon("angular-components", "Components & templates", "Inputs, outputs, and view encapsulation."),

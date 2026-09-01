@@ -5,6 +5,7 @@ import { pwaCurriculumTopics } from "./topics/pwa";
 import { sassCurriculumTopics } from "./topics/sass";
 import { typescriptCurriculumTopics } from "./topics/typescript";
 import { ecmascriptCurriculumTopics } from "./topics/ecmascript";
+import { reactCurriculumTopics } from "./topics/react";
 import { webCurriculumTopics } from "./topics/web";
 import type { RoadmapNode, Topic } from "./types";
 
@@ -17,6 +18,7 @@ export const topics: Topic[] = [
   ...pwaCurriculumTopics,
   ...typescriptCurriculumTopics,
   ...ecmascriptCurriculumTopics,
+  ...reactCurriculumTopics,
 ];
 
 const topicBySlug = new Map(topics.map((topic) => [topic.slug, topic]));

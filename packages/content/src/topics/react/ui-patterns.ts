@@ -7,7 +7,7 @@ export const reactUiTopics = [
     order: 30,
     summary: "React wraps native events. Handlers receive a SyntheticEvent. Delegation lives on the root.",
     prerequisites: ["react-jsx"],
-    related: ["react-controlled", "javascript-events"],
+    related: ["react-controlled", "javascript-event-listener"],
     isHighYield: true,
     oneLiner:
       "In React you pass `onClick={fn}`, not strings. The event is a SyntheticEvent that pools historically (React 17+ does not pool). Handlers close over the render that created them. Prefer `onClick={() => save(id)}` or `useCallback` — do not attach listeners in `useEffect` for elements React already owns.",

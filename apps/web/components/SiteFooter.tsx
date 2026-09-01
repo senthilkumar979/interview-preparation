@@ -12,6 +12,7 @@ const columns = [
       { href: "/roadmap/typescript", label: "TypeScript" },
       { href: "/roadmap/ecmascript", label: "ECMAScript" },
       { href: "/roadmap/pwa", label: "PWA" },
+      { href: "/roadmap/react", label: "React" },
     ],
   },
   {

@@ -394,9 +394,10 @@ export async function deletePost(id: string) {
     practices: "One source of truth per route. Prefer framework metadata APIs for crawlers when they exist.",
     mistakes: "Duplicate conflicting titles from nested layouts without a convention.",
     code: `function CartPage({ count }: { count: number }) {
+  const title = count ? "Cart (" + count + ")" : "Cart";
   return (
     <>
-      <title>{count ? `Cart (${count})` : "Cart"}</title>
+      <title>{title}</title>
       <h1>Your cart</h1>
     </>
   );

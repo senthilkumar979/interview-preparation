@@ -125,7 +125,7 @@ function frameworkTrackFor(framework: FrameworkSlug): CurriculumTrack {
   return {
     slug: "react",
     title: "React",
-    description: "Your selected framework track.",
+    description: "JSX, Virtual DOM, Hooks, errors, Compiler, RSC, and React 19.",
     framework: "react",
     topics: reactTopics,
   };
