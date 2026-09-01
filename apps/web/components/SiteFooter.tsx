@@ -1,42 +1,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-
-const columns = [
-  {
-    title: "Learn",
-    links: [
-      { href: "/roadmap", label: "Roadmap" },
-      { href: "/roadmap/web", label: "How the web works" },
-      { href: "/roadmap/sass", label: "Sass" },
-      { href: "/roadmap/javascript", label: "JavaScript" },
-      { href: "/roadmap/typescript", label: "TypeScript" },
-      { href: "/roadmap/ecmascript", label: "ECMAScript" },
-      { href: "/roadmap/pwa", label: "PWA" },
-      { href: "/roadmap/architecture", label: "Architecture" },
-      { href: "/roadmap/react", label: "React" },
-      { href: "/roadmap/next", label: "Next.js" },
-      { href: "/roadmap/best-practices", label: "Best practices" },
-      { href: "/roadmap/testing", label: "Testing" },
-      { href: "/roadmap/performance", label: "Performance" },
-      { href: "/roadmap/security", label: "Security" },
-      { href: "/roadmap/error-handling", label: "Error handling" },
-    ],
-  },
-  {
-    title: "Practice",
-    links: [
-      { href: "/dashboard", label: "Dashboard" },
-      { href: "/roadmap", label: "Challenges" },
-    ],
-  },
-  {
-    title: "Project",
-    links: [
-      { href: "/", label: "About" },
-      { href: "/", label: "Contribute" },
-    ],
-  },
-];
+import { Compass } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { FooterColumns } from "@/components/site-footer/FooterColumns";
 
 interface SiteFooterProps {
   action?: ReactNode;
@@ -49,38 +15,65 @@ export const SiteFooter = ({ action }: SiteFooterProps) => (
         <div className="mx-auto flex max-w-3xl justify-center">{action}</div>
       </div>
     ) : null}
-    <div className="border-t border-border bg-surface">
-      <div className="mx-auto flex max-w-5xl flex-col gap-8 px-4 py-8 md:flex-row md:items-start md:justify-between">
-        <div className="max-w-xs">
-          <p className="text-sm font-bold tracking-tight">PrepQuest</p>
-          <p className="mt-2 text-sm leading-6 text-muted-foreground">
-            Prepare smarter. Master the concepts. Ace the interview.
-          </p>
+
+    <div className="relative overflow-hidden border-t border-border bg-[linear-gradient(180deg,#fffdf8_0%,#f7f1e4_100%)]">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-24 top-10 size-72 rounded-full bg-primary/15 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-16 bottom-0 size-80 rounded-full bg-primary/10 blur-3xl"
+      />
+
+      <div className="relative mx-auto max-w-6xl px-4 py-12 md:py-16">
+        <div className="flex flex-col gap-8 border-b border-border/80 pb-10 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-lg">
+            <Link href="/" className="inline-flex items-center gap-2.5">
+              <span className="grid size-9 place-items-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+                <Compass className="size-5" strokeWidth={2.25} />
+              </span>
+              <span className="text-lg font-bold tracking-tight">PrepQuest</span>
+            </Link>
+            <p className="mt-4 text-sm leading-6 text-muted-foreground">
+              Prepare smarter. Master the concepts. Ace the interview. A structured path from
+              foundations to production React—not flashcards.
+            </p>
+            <ul className="mt-5 flex flex-wrap gap-2">
+              {["Free", "Open", "Not-for-profit"].map((item) => (
+                <li
+                  key={item}
+                  className="rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-semibold text-foreground/80"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Button asChild size="lg">
+              <Link href="/roadmap">Explore the roadmap</Link>
+            </Button>
+            <Button asChild variant="outline" size="lg">
+              <Link href="/dashboard">Continue learning</Link>
+            </Button>
+          </div>
         </div>
-        <div className="grid grid-cols-3 gap-8">
-          {columns.map((column) => (
-            <div key={column.title}>
-              <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
-                {column.title}
-              </p>
-              <ul className="mt-3 grid gap-2">
-                {column.links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-foreground/80 hover:text-foreground"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+
+        <div className="pt-10">
+          <FooterColumns />
         </div>
       </div>
-      <div className="border-t border-border px-4 py-3 text-center text-xs text-muted-foreground">
-        Free. Open. Not-for-profit. © 2026 PrepQuest
+
+      <div className="relative border-t border-border/80 bg-background/50">
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-4 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <p>© 2026 PrepQuest. Built for interview-ready frontend engineers.</p>
+          <p>Free. Open. Not-for-profit.</p>
+        </div>
       </div>
     </div>
   </footer>

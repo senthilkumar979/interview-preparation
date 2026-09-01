@@ -47,13 +47,21 @@ const trackIcons: Record<string, LucideIcon> = {
 
 interface TrackIconProps {
   slug: string;
+  size?: "sm" | "md";
 }
 
-export const TrackIcon = ({ slug }: TrackIconProps) => {
+export const TrackIcon = ({ slug, size = "md" }: TrackIconProps) => {
   const Icon = trackIcons[slug] ?? Component;
+  const isSmall = size === "sm";
   return (
-    <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-primary/15 text-primary">
-      <Icon className="size-5" strokeWidth={2} />
+    <span
+      className={
+        isSmall
+          ? "grid size-7 shrink-0 place-items-center rounded-lg bg-primary/15 text-primary"
+          : "grid size-11 shrink-0 place-items-center rounded-xl bg-primary/15 text-primary"
+      }
+    >
+      <Icon className={isSmall ? "size-3.5" : "size-5"} strokeWidth={2} />
     </span>
   );
 };
