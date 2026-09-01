@@ -1,0 +1,14 @@
+# A unique project ID used by the local CLI. Generate with: npx supabase init
+project_id = "prepquest"
+
+[api]
+enabled = true
+port = 54321
+
+[db]
+port = 54322
+
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000"]
