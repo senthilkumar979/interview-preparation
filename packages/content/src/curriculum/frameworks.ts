@@ -1,3 +1,4 @@
+import { nextCurriculumTopics } from "../topics/next";
 import { reactCurriculumTopics } from "../topics/react";
 import type { CurriculumTopic } from "../types";
 
@@ -30,12 +31,6 @@ export const vueTopics: CurriculumTopic[] = [
   soon("vue-ssr", "SSR & Nuxt", "Universal Vue rendering."),
 ];
 
-export const nextTopics: CurriculumTopic[] = [
-  soon("next-app-router", "App Router", "Layouts, nested routes, and parallel slots."),
-  soon("next-rsc", "Server Components", "Server-first UI and client islands."),
-  soon("next-data", "Data fetching", "async components, cache, and revalidate."),
-  soon("next-cache", "Caching", "Full route cache vs fetch cache."),
-  soon("next-middleware", "Middleware & routing", "Auth gates and rewrites."),
-  soon("next-metadata", "Metadata & SEO", "generateMetadata and streaming."),
-  soon("next-deploy", "Deployment", "Edge, Node, and environment boundaries."),
-];
+export const nextTopics: CurriculumTopic[] = nextCurriculumTopics.map((topic) =>
+  live(topic.slug, topic.title, topic.summary),
+);

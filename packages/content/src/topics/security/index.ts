@@ -1,0 +1,1 @@
+export { securityCurriculumTopics } from "./topics";

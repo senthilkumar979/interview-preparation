@@ -5,7 +5,14 @@ import { pwaCurriculumTopics } from "./topics/pwa";
 import { sassCurriculumTopics } from "./topics/sass";
 import { typescriptCurriculumTopics } from "./topics/typescript";
 import { ecmascriptCurriculumTopics } from "./topics/ecmascript";
+import { architectureCurriculumTopics } from "./topics/architecture";
 import { reactCurriculumTopics } from "./topics/react";
+import { nextCurriculumTopics } from "./topics/next";
+import { bestPracticeCurriculumTopics } from "./topics/best-practices";
+import { testingCurriculumTopics } from "./topics/testing";
+import { performanceCurriculumTopics } from "./topics/performance";
+import { securityCurriculumTopics } from "./topics/security";
+import { errorHandlingCurriculumTopics } from "./topics/error-handling";
 import { webCurriculumTopics } from "./topics/web";
 import type { RoadmapNode, Topic } from "./types";
 
@@ -18,7 +25,14 @@ export const topics: Topic[] = [
   ...pwaCurriculumTopics,
   ...typescriptCurriculumTopics,
   ...ecmascriptCurriculumTopics,
+  ...architectureCurriculumTopics,
   ...reactCurriculumTopics,
+  ...nextCurriculumTopics,
+  ...bestPracticeCurriculumTopics,
+  ...testingCurriculumTopics,
+  ...performanceCurriculumTopics,
+  ...securityCurriculumTopics,
+  ...errorHandlingCurriculumTopics,
 ];
 
 const topicBySlug = new Map(topics.map((topic) => [topic.slug, topic]));

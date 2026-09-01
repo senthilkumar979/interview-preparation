@@ -3,6 +3,7 @@ import type { CurriculumTrack, FrameworkSlug } from "../types";
 import {
   architectureTopics,
   bestPracticeTopics,
+  errorHandlingTopics,
   performanceTopics,
   securityTopics,
   testingTopics,
@@ -100,6 +101,12 @@ export function getCurriculumTracks(frameworkInput?: string | null): CurriculumT
       description: "The frontend attack surface, plainly.",
       topics: securityTopics,
     },
+    {
+      slug: "error-handling",
+      title: "Error handling",
+      description: "Failure, recovery, and what the user sees.",
+      topics: errorHandlingTopics,
+    },
   ];
 }
 
@@ -176,7 +183,7 @@ function ssrTrack(framework: FrameworkSlug): CurriculumTrack[] {
   }
   return [
     {
-      slug: "nextjs",
+      slug: "next",
       title: "Next.js",
       description: "Production React: routing, data, and the server.",
       framework: "react",

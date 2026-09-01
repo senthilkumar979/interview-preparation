@@ -1,0 +1,1 @@
+export { performanceCurriculumTopics } from "./topics";

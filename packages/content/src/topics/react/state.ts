@@ -128,7 +128,7 @@ export const reactStateTopics = [
     order: 11,
     summary: "Controlled: value + onChange from React. Uncontrolled: DOM holds the value (`ref`, `defaultValue`).",
     prerequisites: ["react-lifting-state"],
-    related: ["react-useref", "react-19-use-form-status"],
+    related: ["react-useref", "react-useformstatus"],
     isHighYield: true,
     oneLiner:
       "A controlled input has `value={x}` and `onChange`. React is the source of truth. Uncontrolled uses `defaultValue` and you read via `ref` on submit. Mixing (`value` without `onChange`) makes a read-only field. Forms in React 19 can also use Actions (progressive enhancement).",

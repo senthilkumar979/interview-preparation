@@ -19,6 +19,7 @@ import {
   Server,
   Smartphone,
   Shield,
+  LifeBuoy,
 } from "lucide-react";
 
 const trackIcons: Record<string, LucideIcon> = {
@@ -33,7 +34,7 @@ const trackIcons: Record<string, LucideIcon> = {
   react: Component,
   angular: Hexagon,
   vue: Layers,
-  nextjs: PanelsTopLeft,
+  next: PanelsTopLeft,
   nuxt: Globe,
   "angular-ssr": Server,
   architecture: Network,
@@ -41,6 +42,7 @@ const trackIcons: Record<string, LucideIcon> = {
   testing: FlaskConical,
   performance: Gauge,
   security: Shield,
+  "error-handling": LifeBuoy,
 };
 
 interface TrackIconProps {
