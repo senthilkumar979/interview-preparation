@@ -11,7 +11,12 @@ Gamified interview preparation — one Next.js app, content-driven topics, Supab
 - Frontend → JavaScript topics (5), generated roadmap from prerequisites
 - Topic reader + persisted completion
 
-## Run
+## M3 / M4
+
+- Practice: timed questions, CodeMirror + Web Worker JS tests, HTML/CSS iframe sandbox, Bug Finder, Bad Practice Finder (`/practice`)
+- Gamification: XP, streaks, levels, badges, daily/weekly challenges, composite prep %, next-study, opt-in leaderboard
+
+Apply `supabase/migrations` including `20260901000100_m3_m4_gamification.sql` for signed-in XP. Guests persist game state in a cookie.
 
 ```bash
 pnpm install

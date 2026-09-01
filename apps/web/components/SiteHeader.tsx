@@ -19,6 +19,9 @@ export const SiteHeader = ({ user }: SiteHeaderProps) => (
             <Link href="/dashboard" className="text-muted-foreground hover:text-foreground">
               Dashboard
             </Link>
+            <Link href="/practice" className="text-muted-foreground hover:text-foreground">
+              Practice
+            </Link>
             <Link href="/roadmap" className="text-muted-foreground hover:text-foreground">
               Roadmap
             </Link>

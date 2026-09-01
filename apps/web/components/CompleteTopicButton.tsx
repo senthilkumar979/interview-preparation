@@ -3,10 +3,12 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { markTopicProgress } from "@/app/actions/progress";
+import { recordTopicXp } from "@/app/actions/game";
 import { Button } from "@/components/ui/button";
 
 interface CompleteTopicButtonProps {
   topicSlug: string;
+  technologySlug: string;
   nextSlug: string | null;
   trackSlug: string | null;
   isCompleted: boolean;
@@ -14,6 +16,7 @@ interface CompleteTopicButtonProps {
 
 export const CompleteTopicButton = ({
   topicSlug,
+  technologySlug,
   nextSlug,
   trackSlug,
   isCompleted,
@@ -32,6 +35,7 @@ export const CompleteTopicButton = ({
     if (phase !== "idle") return;
     setPhase("success");
     await markTopicProgress(topicSlug, "completed");
+    await recordTopicXp(topicSlug, technologySlug);
     window.setTimeout(goNext, 1200);
   };
 

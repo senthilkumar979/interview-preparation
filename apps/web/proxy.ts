@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getSupabasePublicEnv } from "@prepquest/auth";
 import { GUEST_COOKIE } from "@/lib/session-types";
 
-const protectedPrefixes = ["/dashboard", "/learn", "/roadmap", "/onboarding"];
+const protectedPrefixes = ["/dashboard", "/learn", "/roadmap", "/onboarding", "/practice", "/leaderboard"];
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -47,5 +47,17 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/learn/:path*", "/roadmap/:path*", "/onboarding/:path*"],
+  matcher: [
+    "/dashboard",
+    "/dashboard/:path*",
+    "/learn/:path*",
+    "/roadmap",
+    "/roadmap/:path*",
+    "/onboarding",
+    "/onboarding/:path*",
+    "/practice",
+    "/practice/:path*",
+    "/leaderboard",
+    "/leaderboard/:path*",
+  ],
 };

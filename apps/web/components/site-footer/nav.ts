@@ -43,7 +43,8 @@ export const footerColumns: FooterColumn[] = [
   {
     title: "Practice",
     links: [
-      { href: "/roadmap", label: "Full roadmap" },
+      { href: "/practice", label: "Practice" },
+      { href: "/leaderboard", label: "Leaderboard" },
       { href: "/dashboard", label: "Dashboard" },
       { href: "/login", label: "Sign in" },
       { href: "/", label: "About" },

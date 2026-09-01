@@ -54,6 +54,7 @@ export default async function LearnPage({ params }: LearnPageProps) {
         action={
           <CompleteTopicButton
             topicSlug={topic.slug}
+            technologySlug={topic.technologySlug}
             nextSlug={getNextTopicSlug(topic.slug)}
             trackSlug={track?.slug ?? null}
             isCompleted={status === "completed"}

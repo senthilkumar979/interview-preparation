@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { getGameState } from "@/app/actions/game";
+import { GameStrip } from "@/components/dashboard/GameStrip";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { DashboardHero } from "@/components/dashboard/DashboardHero";
@@ -9,8 +12,8 @@ import { TrackBars } from "@/components/dashboard/TrackBars";
 import { TrackSnapshot } from "@/components/dashboard/TrackSnapshot";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { buildDashboardModel } from "@/lib/dashboardView";
-import { getAppUser, getProgressMap } from "@/lib/session";
-import { redirect } from "next/navigation";
+import { compositePrepPercent, nextStudyTopic } from "@/lib/prepScore";
+import { completedSet, getAppUser, getProgressMap } from "@/lib/session";
 
 export default async function DashboardPage() {
   const user = await getAppUser();
@@ -19,6 +22,15 @@ export default async function DashboardPage() {
 
   const progress = await getProgressMap(user.id);
   const model = buildDashboardModel(user, progress);
+  const game = await getGameState();
+  const hyPercent =
+    model.highYieldTotal === 0 ? 0 : Math.round((model.highYieldDone / model.highYieldTotal) * 100);
+  const prepPercent = compositePrepPercent({
+    topicPercent: model.percent,
+    highYieldPercent: hyPercent,
+    game,
+  });
+  const study = nextStudyTopic(model.nextTopic, completedSet(progress), user.technologySlug);
 
   return (
     <div className="flex min-h-full flex-col">
@@ -31,7 +43,13 @@ export default async function DashboardPage() {
           tech={model.tech}
           level={model.level}
           percent={model.percent}
-          nextTopic={model.nextTopic}
+          nextTopic={study ?? model.nextTopic}
+        />
+        <GameStrip
+          game={game}
+          prepPercent={prepPercent}
+          nextHref={study?.href ?? null}
+          nextTitle={study?.title ?? null}
         />
         <StatGrid
           completed={model.completed}
