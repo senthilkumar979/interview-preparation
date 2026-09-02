@@ -34,7 +34,7 @@ export default async function CodingPage({ params, searchParams }: CodingPagePro
         current={item.title}
         kicker={isWeekly ? "Weekly coding challenge" : "Timed coding drill"}
         title={item.title}
-        summary={item.prompt}
+        summary={item.summary}
         stats={[
           { label: "Timebox", value: `${item.minutes} min` },
           { label: "Language", value: language },

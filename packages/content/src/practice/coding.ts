@@ -1,12 +1,23 @@
 import type { CodingChallenge } from "./types";
 
+function spec(goal: string, examples: string[], rules: string[] = []): string {
+  const exampleBlock = ["## Examples", ...examples.map((line) => `- ${line}`)].join("\n");
+  const ruleBlock = rules.length ? ["## Rules", ...rules.map((rule) => `- ${rule}`)].join("\n") : "";
+  return [goal, exampleBlock, ruleBlock].filter(Boolean).join("\n\n");
+}
+
 export const codingChallenges: CodingChallenge[] = [
   {
     id: "unique",
     title: "Remove duplicates",
     minutes: 10,
     language: "javascript",
-    prompt: "Implement `unique(list)` returning a new array of first-seen values (`===`). Do not mutate `list`.",
+    summary: "Return a new array with duplicates removed, keeping the first copy of each value.",
+    prompt: spec(
+      "Export unique(list). Return a new array that keeps values in the same order, but each value only once (the first time it appears).",
+      ["unique([1, 1, 2]) returns [1, 2].", "unique(['a', 'a', 'b']) returns ['a', 'b']."],
+      ["Treat two values as the same with ===.", "Do not change the original list."],
+    ),
     starter: `export function unique(list) {
 }
 `,
@@ -31,7 +42,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Flatten one level",
     minutes: 10,
     language: "javascript",
-    prompt: "`flatten(list)` one level: `[1,[2,3],4]` → `[1,2,3,4]`. Nested arrays deeper stay nested.",
+    summary: "Unwrap arrays that sit directly inside the list; leave deeper nesting as-is.",
+    prompt: spec(
+      "Export flatten(list). Unwrap only one level of nested arrays. If an item is not an array, keep it. If an inner array itself contains arrays, leave those inner arrays intact.",
+      ["flatten([1, [2, 3], 4]) returns [1, 2, 3, 4].", "flatten([1, [2, [3]]]) returns [1, 2, [3]] — the [3] stays nested."],
+    ),
     starter: `export function flatten(list) {
 }
 `,
@@ -49,7 +64,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Characters of a string",
     minutes: 5,
     language: "javascript",
-    prompt: "`chars(s)` returns an array of UTF-16 code units (spread is fine for BMP).",
+    summary: "Turn a string into an array of its characters, including the empty string.",
+    prompt: spec(
+      "Export chars(s). Return an array of the characters in s, in order.",
+      ["chars('ab') returns ['a', 'b'].", "chars('') returns []."],
+    ),
     starter: `export function chars(s) {
 }
 `,
@@ -64,7 +83,12 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Sort numbers",
     minutes: 8,
     language: "javascript",
-    prompt: "`sortNums(list)` returns a new array sorted ascending. Do not use the default string sort.",
+    summary: "Return a new array of numbers sorted from smallest to largest.",
+    prompt: spec(
+      "Export sortNums(list). Return a new array with the numbers sorted ascending (smallest first).",
+      ["sortNums([10, 2, 3]) returns [2, 3, 10] — not [10, 2, 3], which is how string sort would look."],
+      ["Do not change the original list.", "Sort by numeric value (2 before 10), not by text."],
+    ),
     starter: `export function sortNums(list) {
 }
 `,
@@ -82,7 +106,12 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Read input values",
     minutes: 10,
     language: "javascript",
-    prompt: "`readFields(form)` given a mock `{ elements: { email: { value: 'a' }, age: { value: '2' } } }` returns `{ email, age }` from those `.value`s.",
+    summary: "Read email and age strings from a mock form’s elements.",
+    prompt: spec(
+      "Export readFields(form). The form looks like { elements: { email: { value: '...' }, age: { value: '...' } } }. Return { email, age } using those .value strings.",
+      ["If email.value is 'a@b.c' and age.value is '9', return { email: 'a@b.c', age: '9' }."],
+      ["Keep the values as strings. Do not parse age as a number."],
+    ),
     starter: `export function readFields(form) {
 }
 `,
@@ -102,7 +131,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Sum numbers",
     minutes: 5,
     language: "javascript",
-    prompt: "`sum(list)` returns the total of all numbers. Empty list → `0`.",
+    summary: "Add every number in a list. An empty list sums to 0.",
+    prompt: spec(
+      "Export sum(list). Return the total of all numbers in list.",
+      ["sum([1, 2, 3]) returns 6.", "sum([]) returns 0.", "sum([-2, 2]) returns 0."],
+    ),
     starter: `export function sum(list) {
 }
 `,
@@ -121,7 +154,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Clamp a number",
     minutes: 5,
     language: "javascript",
-    prompt: "`clamp(n, min, max)` returns `n` kept in `[min, max]`. Assume `min <= max`.",
+    summary: "Keep a number inside a min/max range.",
+    prompt: spec(
+      "Export clamp(n, min, max). Return n, but never below min and never above max. You can assume min is less than or equal to max.",
+      ["clamp(5, 0, 10) returns 5.", "clamp(-1, 0, 10) returns 0.", "clamp(99, 0, 10) returns 10."],
+    ),
     starter: `export function clamp(n, min, max) {
 }
 `,
@@ -140,7 +177,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Last item",
     minutes: 5,
     language: "javascript",
-    prompt: "`last(list)` returns the last element, or `undefined` if empty.",
+    summary: "Return the last item in a list, or undefined if the list is empty.",
+    prompt: spec(
+      "Export last(list). Return the last element. If the list has no items, return undefined.",
+      ["last([1, 2, 9]) returns 9.", "last([]) returns undefined."],
+    ),
     starter: `export function last(list) {
 }
 `,
@@ -158,7 +199,12 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Take first n",
     minutes: 8,
     language: "javascript",
-    prompt: "`take(list, n)` returns the first `n` items as a new array. If `n` is larger than length, return a copy of all items. Do not mutate `list`.",
+    summary: "Copy the first n items into a new array without changing the original.",
+    prompt: spec(
+      "Export take(list, n). Return a new array with the first n items. If n is larger than the list, return a copy of the whole list. If n is 0, return [].",
+      ["take([1, 2, 3, 4], 2) returns [1, 2].", "take([1, 2], 9) returns [1, 2].", "take([1, 2], 0) returns []."],
+      ["Do not change the original list."],
+    ),
     starter: `export function take(list, n) {
 }
 `,
@@ -177,7 +223,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Drop first n",
     minutes: 8,
     language: "javascript",
-    prompt: "`drop(list, n)` returns a new array without the first `n` items. If `n` >= length, return `[]`.",
+    summary: "Return a new array with the first n items removed.",
+    prompt: spec(
+      "Export drop(list, n). Return a new array starting after the first n items. If n is at least as large as the list, return [].",
+      ["drop([1, 2, 3, 4], 2) returns [3, 4].", "drop([1], 3) returns []."],
+    ),
     starter: `export function drop(list, n) {
 }
 `,
@@ -195,7 +245,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Compact falsy",
     minutes: 8,
     language: "javascript",
-    prompt: "`compact(list)` returns a new array with falsy values removed (`false`, `0`, `''`, `null`, `undefined`, `NaN`).",
+    summary: "Return a new array with all falsy values removed.",
+    prompt: spec(
+      "Export compact(list). Return a new array that keeps only truthy values. Drop false, 0, '', null, undefined, and NaN.",
+      ["compact([0, 1, false, 2, '', 3]) returns [1, 2, 3].", "compact([null, undefined, NaN]) returns []."],
+    ),
     starter: `export function compact(list) {
 }
 `,
@@ -213,7 +267,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Chunk array",
     minutes: 12,
     language: "javascript",
-    prompt: "`chunk(list, size)` splits into arrays of length `size`. The last chunk may be shorter. Assume `size >= 1`.",
+    summary: "Split a list into smaller lists of a given size.",
+    prompt: spec(
+      "Export chunk(list, size). Split list into pieces of length size. The last piece can be shorter if items run out. size is at least 1. An empty list returns [].",
+      ["chunk([1, 2, 3, 4, 5], 2) returns [[1, 2], [3, 4], [5]].", "chunk([], 2) returns []."],
+    ),
     starter: `export function chunk(list, size) {
 }
 `,
@@ -233,7 +291,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Integer range",
     minutes: 10,
     language: "javascript",
-    prompt: "`range(start, end)` returns integers from `start` inclusive to `end` exclusive. If `start >= end`, return `[]`.",
+    summary: "Build a list of integers from start up to, but not including, end.",
+    prompt: spec(
+      "Export range(start, end). Return the integers from start (included) to end (not included). If start is greater than or equal to end, return [].",
+      ["range(2, 5) returns [2, 3, 4].", "range(3, 3) returns [].", "range(5, 2) returns []."],
+    ),
     starter: `export function range(start, end) {
 }
 `,
@@ -254,7 +316,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Array intersection",
     minutes: 10,
     language: "javascript",
-    prompt: "`intersection(a, b)` returns values in both arrays, in first-seen order from `a`, without duplicates.",
+    summary: "Return values that appear in both lists, without duplicates.",
+    prompt: spec(
+      "Export intersection(a, b). Return values that appear in both a and b. Keep the order from a. Each value only once.",
+      ["intersection([1, 2, 2, 3], [2, 4]) returns [2].", "intersection(['a', 'b'], ['c']) returns []."],
+    ),
     starter: `export function intersection(a, b) {
 }
 `,
@@ -280,7 +346,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Array difference",
     minutes: 10,
     language: "javascript",
-    prompt: "`difference(a, b)` returns items in `a` that are not in `b`, first-seen order, no duplicates.",
+    summary: "Return values from the first list that are missing in the second.",
+    prompt: spec(
+      "Export difference(a, b). Return items that are in a but not in b. Keep the order from a. Each value only once.",
+      ["difference([1, 2, 2, 3], [2]) returns [1, 3].", "difference([1], [1, 2]) returns []."],
+    ),
     starter: `export function difference(a, b) {
 }
 `,
@@ -306,7 +376,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Zip two arrays",
     minutes: 10,
     language: "javascript",
-    prompt: "`zip(a, b)` pairs items until the shorter array ends: `[[a0,b0], [a1,b1], ...]`.",
+    summary: "Pair items from two lists until the shorter one ends.",
+    prompt: spec(
+      "Export zip(a, b). Return an array of pairs [a[i], b[i]] for as many items as the shorter list has.",
+      ["zip([1, 2], ['a', 'b', 'c']) returns [[1, 'a'], [2, 'b']].", "zip([], [1]) returns []."],
+    ),
     starter: `export function zip(a, b) {
 }
 `,
@@ -327,7 +401,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Pick object keys",
     minutes: 10,
     language: "javascript",
-    prompt: "`pick(obj, keys)` returns a new object with only those keys that exist on `obj`.",
+    summary: "Copy only the requested keys that exist on an object.",
+    prompt: spec(
+      "Export pick(obj, keys). Return a new object that includes a key only if it exists on obj. Skip keys that are missing.",
+      ["pick({ a: 1, b: 2, c: 3 }, ['a', 'c', 'z']) returns { a: 1, c: 3 } — no z, and no b."],
+    ),
     starter: `export function pick(obj, keys) {
 }
 `,
@@ -348,7 +426,12 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Omit object keys",
     minutes: 10,
     language: "javascript",
-    prompt: "`omit(obj, keys)` returns a shallow copy of `obj` without those keys.",
+    summary: "Copy an object while leaving out a list of keys.",
+    prompt: spec(
+      "Export omit(obj, keys). Return a new object with the same fields as obj except the listed keys.",
+      ["omit({ a: 1, b: 2, c: 3 }, ['b']) returns { a: 1, c: 3 }."],
+      ["Do not change the original object."],
+    ),
     starter: `export function omit(obj, keys) {
 }
 `,
@@ -370,7 +453,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Invert object",
     minutes: 10,
     language: "javascript",
-    prompt: "`invert(obj)` swaps keys and values as strings. Later keys win on duplicate values.",
+    summary: "Swap keys and values. If two keys share a value, the later key wins.",
+    prompt: spec(
+      "Export invert(obj). Return a new object where each value becomes a string key, and the original key becomes the value. If two keys share the same value, keep the later key.",
+      ["invert({ a: 1, b: 2 }) returns { '1': 'a', '2': 'b' }.", "invert({ a: 'x', b: 'x' }) returns { x: 'b' }."],
+    ),
     starter: `export function invert(obj) {
 }
 `,
@@ -390,7 +477,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Get nested path",
     minutes: 12,
     language: "javascript",
-    prompt: "`getPath(obj, path)` reads a dotted path like `'user.name'`. Missing path → `undefined`. Do not throw.",
+    summary: "Read a dotted path like user.name. Missing data should be undefined, not a throw.",
+    prompt: spec(
+      "Export getPath(obj, path). Walk a dotted path such as 'user.name'. If anything along the way is missing (including obj itself being null), return undefined. Do not throw.",
+      ["getPath({ user: { name: 'Ada' } }, 'user.name') returns 'Ada'.", "getPath({ user: {} }, 'user.name') returns undefined.", "getPath(null, 'a') returns undefined."],
+    ),
     starter: `export function getPath(obj, path) {
 }
 `,
@@ -410,7 +501,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Group by key",
     minutes: 12,
     language: "javascript",
-    prompt: "`groupBy(list, key)` groups objects by `item[key]`. Return `{ [value]: items[] }` preserving order.",
+    summary: "Group objects into arrays by one field, keeping their original order.",
+    prompt: spec(
+      "Export groupBy(list, key). Split objects into buckets by item[key]. Return an object whose keys are those values (as strings) and whose values are arrays of the original items, in the order they appeared.",
+      ["groupBy([{ t: 'a', n: 1 }, { t: 'b', n: 2 }, { t: 'a', n: 3 }], 't') returns { a: [{ t: 'a', n: 1 }, { t: 'a', n: 3 }], b: [{ t: 'b', n: 2 }] }."],
+    ),
     starter: `export function groupBy(list, key) {
 }
 `,
@@ -433,7 +528,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Count by key",
     minutes: 10,
     language: "javascript",
-    prompt: "`countBy(list, key)` returns `{ [value]: count }` for `item[key]`.",
+    summary: "Count how many objects share the same value for a field.",
+    prompt: spec(
+      "Export countBy(list, key). Return an object mapping each item[key] (as a string) to how many times it appears.",
+      ["countBy([{ k: 'x' }, { k: 'y' }, { k: 'x' }], 'k') returns { x: 2, y: 1 }."],
+    ),
     starter: `export function countBy(list, key) {
 }
 `,
@@ -455,7 +554,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Character frequencies",
     minutes: 8,
     language: "javascript",
-    prompt: "`frequencies(s)` returns an object mapping each character to how often it appears.",
+    summary: "Count how often each character appears in a string.",
+    prompt: spec(
+      "Export frequencies(s). Return an object whose keys are characters and whose values are how many times they appear.",
+      ["frequencies('aba') returns { a: 2, b: 1 }.", "frequencies('') returns {}."],
+    ),
     starter: `export function frequencies(s) {
 }
 `,
@@ -475,7 +578,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Palindrome check",
     minutes: 10,
     language: "javascript",
-    prompt: "`isPalindrome(s)` is true if `s` reads the same forwards and backwards. Compare as-is (case-sensitive, keep spaces).",
+    summary: "Check whether a string is the same forwards and backwards, including case.",
+    prompt: spec(
+      "Export isPalindrome(s). Return true if s reads the same forwards and backwards. Compare the string as-is: case matters, and spaces count as characters. An empty string is a palindrome.",
+      ["isPalindrome('kayak') is true.", "isPalindrome('Kayak') is false because K and k differ.", "isPalindrome('') is true."],
+    ),
     starter: `export function isPalindrome(s) {
 }
 `,
@@ -494,7 +601,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Reverse word order",
     minutes: 10,
     language: "javascript",
-    prompt: "`reverseWords(s)` splits on spaces, drops empty tokens from extra spaces, reverses word order, joins with a single space.",
+    summary: "Reverse the words in a sentence and collapse extra spaces.",
+    prompt: spec(
+      "Export reverseWords(s). Split on spaces, drop empty pieces from extra spaces, reverse the word order, then join with a single space.",
+      ["reverseWords('the sky is blue') returns 'blue is sky the'.", "reverseWords('  hello   world  ') returns 'world hello'."],
+    ),
     starter: `export function reverseWords(s) {
 }
 `,
@@ -512,7 +623,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Capitalize words",
     minutes: 8,
     language: "javascript",
-    prompt: "`capitalize(s)` uppercases the first letter of each whitespace-separated word; the rest of each word stays as given.",
+    summary: "Uppercase the first letter of each word; leave the rest of the word unchanged.",
+    prompt: spec(
+      "Export capitalize(s). Split on single spaces. For each word, uppercase only the first character and leave the rest as written. Empty string stays empty.",
+      ["capitalize('hello world') returns 'Hello World'.", "capitalize('') returns ''."],
+    ),
     starter: `export function capitalize(s) {
 }
 `,
@@ -534,7 +649,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "To kebab-case",
     minutes: 12,
     language: "javascript",
-    prompt: "`toKebab(s)` converts `'Hello World'` or `'helloWorld'` to `'hello-world'`. Treat non-letters as separators. Collapse repeats. Lowercase the result.",
+    summary: "Turn a phrase or camelCase name into lowercase words separated by hyphens.",
+    prompt: spec(
+      "Export toKebab(s). Return a lowercase kebab-case string. Treat spaces and other non-letters as separators. Split camelCase and acronyms so a capital letter starts a new word. Collapse repeated separators. Do not leave a hyphen at the start or end.",
+      ["toKebab('Hello World') returns 'hello-world'.", "toKebab('helloWorld') returns 'hello-world'.", "toKebab('XMLHttp') returns 'xml-http'."],
+    ),
     starter: `export function toKebab(s) {
 }
 `,
@@ -558,7 +677,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Call once",
     minutes: 10,
     language: "javascript",
-    prompt: "`once(fn)` returns a function that runs `fn` only the first time and then always returns that first result.",
+    summary: "Wrap a function so it runs only the first time you call it.",
+    prompt: spec(
+      "Export once(fn). Return a new function. The first time you call it, it runs fn and remembers that result. Later calls skip fn and return the same remembered result.",
+      ["If fn adds 1 to a counter, the first call returns 1 and later calls still return 1 while the counter stays at 1."],
+    ),
     starter: `export function once(fn) {
 }
 `,
@@ -583,7 +706,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Memoize one argument",
     minutes: 12,
     language: "javascript",
-    prompt: "`memoize(fn)` caches `fn(x)` by `x` using `===` / Map keys. Same argument → do not call `fn` again.",
+    summary: "Cache a function’s result for each argument so the same input is not computed twice.",
+    prompt: spec(
+      "Export memoize(fn). Return a function that takes one argument x. The first time you see x, call fn(x) and store the result. The next time the same x is passed (same value, === / Map key), return the stored result and do not call fn again.",
+      ["For fn that doubles a number, calling with 3 twice only runs fn once and both calls return 6. Calling with 4 runs fn again and returns 8."],
+    ),
     starter: `export function memoize(fn) {
 }
 `,
@@ -606,7 +733,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Partition by predicate",
     minutes: 10,
     language: "javascript",
-    prompt: "`partition(list, pred)` returns `[pass, fail]` arrays. `pred(item)` truthy → pass.",
+    summary: "Split a list into items that pass a test and items that fail it.",
+    prompt: spec(
+      "Export partition(list, pred). Return [pass, fail]. Put an item in pass when pred(item) is truthy, otherwise in fail. Keep the original order inside each array.",
+      ["partition([1, 2, 3, 4], (n) => n % 2 === 0) returns [[2, 4], [1, 3]]."],
+    ),
     starter: `export function partition(list, pred) {
 }
 `,
@@ -626,7 +757,11 @@ export const codingChallenges: CodingChallenge[] = [
     title: "Flatten deep",
     minutes: 12,
     language: "javascript",
-    prompt: "`flattenDeep(list)` flattens nested arrays of any depth into one array of non-array values.",
+    summary: "Unwrap nested arrays of any depth into one flat list of values.",
+    prompt: spec(
+      "Export flattenDeep(list). Flatten nested arrays no matter how deep, until every remaining item is not an array.",
+      ["flattenDeep([1, [2, [3, [4]]], 5]) returns [1, 2, 3, 4, 5].", "flattenDeep([]) returns []."],
+    ),
     starter: `export function flattenDeep(list) {
 }
 `,
@@ -636,6 +771,164 @@ export const codingChallenges: CodingChallenge[] = [
     ],
     solution: `export function flattenDeep(list) {
   return list.flat(Infinity);
+}
+`,
+  },
+  {
+    id: "use-toggle",
+    title: "Custom hook: useToggle",
+    minutes: 12,
+    language: "javascript",
+    summary: "Write a small hook that stores an on/off flag and a stable toggle function.",
+    prompt: `## What you export
+useToggle(initial)
+
+## Already in scope
+Do not import React. You can call useState and useCallback directly.
+
+## Return value
+- on: boolean, starts as initial
+- toggle: function that flips on (false → true, true → false)
+
+## How to write it
+- Store on with useState
+- Create toggle with useCallback and [] so it is the same function after a rerender
+
+## Examples
+- useToggle(false) starts with on = false. First toggle() → true. Second toggle() → false.
+- After a rerender (no toggle), on is unchanged and toggle is the same function.
+`,
+    starter: `export function useToggle(initial) {
+}
+`,
+    tests: [
+      "const t1 = renderHook(() => useToggle(false)); if (t1.result.on !== false) throw new Error('init'); t1.result.toggle(); if (t1.result.on !== true) throw new Error('toggle'); t1.result.toggle(); if (t1.result.on !== false) throw new Error('back');",
+      "const t2 = renderHook(() => useToggle(true)); const tog = t2.result.toggle; t2.rerender(); if (t2.result.toggle !== tog) throw new Error('stable'); if (t2.result.on !== true) throw new Error('keep');",
+    ],
+    solution: `export function useToggle(initial) {
+  const [on, setOn] = useState(Boolean(initial));
+  const toggle = useCallback(() => setOn((value) => !value), []);
+  return { on, toggle };
+}
+`,
+  },
+  {
+    id: "use-topic-route",
+    title: "Router hook: topic slug",
+    minutes: 12,
+    language: "javascript",
+    summary: "Read /topics/:slug from the current path and navigate with a stable open() helper.",
+    prompt: `## What you export
+useTopicRoute()
+
+## Already in scope
+Do not import a router. You can call usePathname, useRouter, and useCallback directly.
+
+## Return value
+- slug: string
+- open: function
+
+### slug
+- Read the current pathname
+- If it looks like /topics/hooks, slug is "hooks" (the second piece)
+- If it is not /topics/..., slug is ""
+
+### open(next)
+- Call router.push('/topics/' + next)
+- The path becomes /topics/next and slug updates
+- Wrap open in useCallback with [router.push] so the function stays the same after a rerender
+
+## Examples
+- Path /topics/hooks → slug is "hooks"
+- Path /practice → slug is ""
+- From /topics/css, open('javascript') → slug is "javascript"
+`,
+    starter: `export function useTopicRoute() {
+}
+`,
+    tests: [
+      "navigate('/topics/hooks'); const r1 = renderHook(() => useTopicRoute()); if (r1.result.slug !== 'hooks') throw new Error('slug');",
+      "navigate('/practice'); const r2 = renderHook(() => useTopicRoute()); if (r2.result.slug !== '') throw new Error('empty');",
+      "navigate('/topics/css'); const r3 = renderHook(() => useTopicRoute()); const open = r3.result.open; r3.result.open('javascript'); if (r3.result.slug !== 'javascript') throw new Error('push'); r3.rerender(); if (r3.result.open !== open) throw new Error('stable');",
+    ],
+    solution: `export function useTopicRoute() {
+  const pathname = usePathname();
+  const router = useRouter();
+  const parts = pathname.split('/').filter(Boolean);
+  const slug = parts[0] === 'topics' ? (parts[1] ?? '') : '';
+  const open = useCallback((next) => {
+    router.push('/topics/' + next);
+  }, [router.push]);
+  return { slug, open };
+}
+`,
+  },
+  {
+    id: "use-catalog",
+    title: "Memo + callback catalog",
+    minutes: 12,
+    language: "javascript",
+    summary: "Filter a list with useMemo, look up an item with useCallback, and skip extra row renders with memo.",
+    prompt: `## What you export
+Two functions: useCatalog(items, query) and createRow({ onRender }).
+
+## Already in scope
+Do not import React. You can call useMemo, useCallback, and memo directly.
+
+## Part 1 — useCatalog(items, query)
+Return { visible, pick }.
+
+### visible
+- A filtered copy of items
+- Keep an item if item.name contains the query
+- Ignore case ("HO" matches "Hooks")
+- Trim the query first
+- If the query is "" or only spaces, keep every item
+- Create this array with useMemo([items, query]) so it is reused when items and query did not change
+
+### pick(id)
+- Search inside visible (the filtered list), not the original items
+- Return that item, or null if it is not in visible
+- Wrap pick in useCallback([visible]) so it is the same function until visible changes
+
+## Part 2 — createRow({ onRender })
+- Return a component wrapped in memo(...)
+- The component receives props { id, label }
+- When it really renders: call onRender() once, then return the string id + ':' + label
+- Same id and label again: skip render (do not call onRender)
+- If id or label changes: render again
+
+## Examples
+- items = [{ id: '1', name: 'Hooks' }, { id: '2', name: 'Router' }], query = 'ho' → visible is only Hooks. pick('1') is that item. pick('2') is null.
+- Same items and query after a rerender → visible and pick are the same references (not new copies).
+- query = '' → visible has both items.
+- Row({ id: 1, label: 'a' }) twice → onRender ran once, return value is "1:a". Then Row({ id: 1, label: 'b' }) calls onRender again.
+`,
+    starter: `export function useCatalog(items, query) {
+}
+
+export function createRow({ onRender }) {
+}
+`,
+    tests: [
+      "const items = [{ id: '1', name: 'Hooks' }, { id: '2', name: 'Router' }]; const box = { query: 'ho' }; const h = renderHook(() => useCatalog(items, box.query)); if (h.result.visible.length !== 1 || h.result.visible[0].id !== '1') throw new Error('filter'); const v = h.result.visible; const p = h.result.pick; h.rerender(); if (h.result.visible !== v) throw new Error('memo'); if (h.result.pick !== p) throw new Error('callback'); if (p('2') !== null || p('1').name !== 'Hooks') throw new Error('pick'); box.query = ''; h.rerender(); if (h.result.visible.length !== 2) throw new Error('recompute'); if (h.result.visible === v) throw new Error('new');",
+      "let n = 0; const Row = createRow({ onRender: () => n++ }); if (Row({ id: 1, label: 'a' }) !== '1:a') throw new Error('out'); Row({ id: 1, label: 'a' }); if (n !== 1) throw new Error('memo'); Row({ id: 1, label: 'b' }); if (n !== 2) throw new Error('update');",
+    ],
+    solution: `export function useCatalog(items, query) {
+  const visible = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    if (!needle) return items;
+    return items.filter((item) => item.name.toLowerCase().includes(needle));
+  }, [items, query]);
+  const pick = useCallback((id) => visible.find((item) => item.id === id) ?? null, [visible]);
+  return { visible, pick };
+}
+
+export function createRow({ onRender }) {
+  return memo(function Row({ id, label }) {
+    onRender();
+    return id + ':' + label;
+  });
 }
 `,
   },

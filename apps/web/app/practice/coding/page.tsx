@@ -26,7 +26,7 @@ export default async function CodingIndexPage() {
               className="block rounded-2xl border border-border bg-card p-5 hover:border-primary/40"
             >
               <p className="font-semibold">{item.title}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{item.prompt}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{item.summary}</p>
               <p className="mt-3 text-xs text-muted-foreground">{item.minutes} min · {item.language}</p>
             </Link>
           </li>

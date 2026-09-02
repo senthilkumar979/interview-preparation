@@ -37,7 +37,7 @@ export const badPracticeSteps = [
 
 export const codingSteps = [
   "Pick a drill. Each one is meant to take about 10 minutes or less.",
-  "Read the requirement, then write your solution in the editor.",
+  "Read the requirement, then write your solution in the editor. React-style drills already have useState, useMemo, useCallback, memo, and a tiny router in scope — do not import them.",
   "Click Run tests. Hidden tests pass or fail; they do not show the expected source.",
   "If you are stuck or done, Show answer to compare with a reference solution.",
   "Use Previous, Next, or Jump to for another drill. The list stays one row even with dozens of prompts.",

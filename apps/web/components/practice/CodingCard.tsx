@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { CodingChallenge } from "@prepquest/content";
+import { CodingSpec } from "@/components/practice/CodingSpec";
 import { PracticeEditor } from "@/components/practice/PracticeEditorLazy";
 import { Button } from "@/components/ui/button";
 import { runJsTests } from "@/lib/runPractice";
@@ -45,6 +46,10 @@ export const CodingCard = ({ exercise, minutes, alreadyCorrect, onSolved }: Codi
         </div>
         <StatusBadge status={status} />
       </header>
+      <div className="border-b border-border px-5 py-4">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Spec</p>
+        <CodingSpec text={exercise.prompt} />
+      </div>
       <div className="grid gap-0 lg:grid-cols-[minmax(0,1.2fr)_minmax(260px,0.8fr)]">
         <div className="border-b border-border bg-[#111827] lg:border-b-0 lg:border-r">
           <div className="flex items-center justify-between border-b border-white/10 px-4 py-2.5">
@@ -61,16 +66,10 @@ export const CodingCard = ({ exercise, minutes, alreadyCorrect, onSolved }: Codi
           <PracticeEditor value={code} language={exercise.language} onChange={setCode} height="360px" />
         </div>
         <aside className="grid content-start gap-4 p-5">
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-              Spec
-            </p>
-            <p className="mt-2 text-sm leading-6">{exercise.prompt}</p>
-          </div>
           <ul className="grid gap-2 text-sm">
             <Meta label="Timebox" value={`${minutes} min`} />
             <Meta label="Hidden tests" value={`${exercise.tests.length} cases`} />
-            <Meta label="Contract" value="Export the named function. Prefer a new array." />
+            <Meta label="Contract" value="Fill in the exported function(s) in the starter." />
           </ul>
           <div className="grid gap-3">
             <Button disabled={status === "busy"} onClick={() => void run()}>

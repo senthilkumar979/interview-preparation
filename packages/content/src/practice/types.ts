@@ -52,6 +52,7 @@ export interface FinderPackage {
 export interface CodingChallenge {
   id: string;
   title: string;
+  summary: string;
   prompt: string;
   minutes: number;
   language: "javascript" | "typescript";
