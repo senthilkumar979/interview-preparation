@@ -1,23 +1,9 @@
-import { getCurriculumTracks, getTopic, listPracticeSets } from "@prepquest/content";
+import { getCurriculumTracks, getTopic, countPracticeActivities } from "@prepquest/content";
 import type { GameState } from "@/lib/game";
 import type { DashboardTopic } from "@/lib/dashboardView";
 
-export function countPracticeActivities(): number {
-  return listPracticeSets().reduce((sum, set) => {
-    return (
-      sum +
-      set.questions.length +
-      (set.coding ? 1 : 0) +
-      (set.bugFinder ? 1 : 0) +
-      (set.badPractice ? 1 : 0)
-    );
-  }, 0);
-}
-
-export function practiceCompletedCount(completedIds: string[]): number {
-  return completedIds.filter(
-    (id) => id.includes(":q:") || id.includes(":code:") || id.includes(":bug:") || id.includes(":bad:"),
-  ).length;
+export function countPracticeDone(completedIds: string[]): number {
+  return completedIds.filter((id) => id.startsWith("quiz:") || id.startsWith("code:")).length;
 }
 
 export function compositePrepPercent(input: {
@@ -26,7 +12,8 @@ export function compositePrepPercent(input: {
   game: GameState;
 }): number {
   const total = countPracticeActivities();
-  const practicePercent = total === 0 ? 0 : Math.round((practiceCompletedCount(input.game.completedIds) / total) * 100);
+  const practicePercent =
+    total === 0 ? 0 : Math.round((countPracticeDone(input.game.completedIds) / total) * 100);
   return Math.round(input.topicPercent * 0.5 + practicePercent * 0.3 + input.highYieldPercent * 0.2);
 }
 

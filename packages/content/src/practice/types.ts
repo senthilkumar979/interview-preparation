@@ -1,63 +1,63 @@
-export type PracticeKind = "question" | "coding" | "html" | "bug" | "bad-practice";
+import type { ExperienceLevel } from "../types";
 
-export interface McqOption {
+export type QuizKind = "mcq" | "tf" | "output";
+
+export interface QuizChoice {
   id: string;
   label: string;
   isCorrect: boolean;
 }
 
-export interface PracticeQuestion {
+export interface QuizItem {
   id: string;
+  kind: QuizKind;
   prompt: string;
-  options: McqOption[];
+  code?: string;
+  language?: "javascript" | "typescript" | "html" | "css";
+  choices: QuizChoice[];
   explanation: string;
-  seconds?: number;
 }
 
-export interface CodingExercise {
+export type QuizTrack = "html" | "css" | "javascript" | "mixed";
+
+export interface QuizPackage {
+  slug: string;
+  title: string;
+  summary: string;
+  difficulty: ExperienceLevel;
+  track: QuizTrack;
+  topics: string[];
+  questions: QuizItem[];
+}
+
+export type BugKind = "js-function" | "ts-function" | "component";
+
+export interface RevealExercise {
+  id: string;
+  title: string;
+  kind: BugKind;
+  language: "javascript" | "typescript";
+  snippet: string;
+  answers: string[];
+}
+
+export interface FinderPackage {
+  slug: string;
+  title: string;
+  summary: string;
+  kind: BugKind;
+  items: RevealExercise[];
+}
+
+export interface CodingChallenge {
   id: string;
   title: string;
   prompt: string;
+  minutes: number;
   language: "javascript" | "typescript";
   starter: string;
   tests: string[];
-}
-
-export interface HtmlCssExercise {
-  id: string;
-  title: string;
-  prompt: string;
-  html: string;
-  css: string;
-  js: string;
-}
-
-export interface FinderOption {
-  id: string;
-  label: string;
-  isCorrect: boolean;
-}
-
-export interface FinderExercise {
-  id: string;
-  title: string;
-  prompt: string;
-  language: "javascript" | "html" | "css";
-  snippet: string;
-  options: FinderOption[];
-  explanation: string;
-}
-
-export interface PracticeSet {
-  topicSlug: string;
-  title: string;
-  summary: string;
-  timedSeconds: number;
-  questions: PracticeQuestion[];
-  coding?: CodingExercise;
-  preview?: HtmlCssExercise;
-  bugFinder?: FinderExercise;
-  badPractice?: FinderExercise;
+  solution: string;
 }
 
 export const XP = {

@@ -4,6 +4,7 @@ import { css } from "@codemirror/lang-css";
 import { html } from "@codemirror/lang-html";
 import { javascript } from "@codemirror/lang-javascript";
 import CodeMirror from "@uiw/react-codemirror";
+import { codeMirrorChrome } from "@/lib/codeMirrorChrome";
 
 type EditorLanguage = "javascript" | "typescript" | "html" | "css";
 
@@ -31,10 +32,9 @@ export const PracticeEditor = ({
       value={value}
       height={height}
       theme="dark"
-      extensions={[extension(language)]}
+      extensions={[extension(language), codeMirrorChrome]}
       onChange={onChange}
       basicSetup={{ lineNumbers: true, foldGutter: false }}
-      className="text-sm"
     />
   </div>
 );

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getPracticeSet, type Topic, type TopicSection } from "@prepquest/content";
+import { type Topic, type TopicSection } from "@prepquest/content";
 import { TopicCodeExample } from "@/components/TopicCodeExample";
 import { TopicConceptCard } from "@/components/TopicConceptCard";
 import { TopicExamplesCards } from "@/components/TopicExamplesCards";
@@ -56,14 +56,12 @@ export const TopicReader = ({ topic }: TopicReaderProps) => {
         </div>
       ) : null}
       <TopicExamplesCards examples={topic.workedExamples ?? []} />
-      {getPracticeSet(topic.slug) ? (
-        <Link
-          href={`/practice/${topic.slug}`}
-          className="rounded-2xl border border-primary/30 bg-primary/10 px-4 py-3 text-sm font-medium"
-        >
-          Open timed practice, runner, and Bug Finder for this topic
-        </Link>
-      ) : null}
+      <Link
+        href="/practice"
+        className="rounded-2xl border border-primary/30 bg-primary/10 px-4 py-3 text-sm font-medium"
+      >
+        Open frontend practice: Quiz, Bug Finder, Bad Practice Finder, Coding
+      </Link>
     </div>
   );
 };

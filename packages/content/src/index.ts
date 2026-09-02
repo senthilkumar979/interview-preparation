@@ -17,18 +17,28 @@ export type {
 export { experienceLevels, resolveFramework, roles, technologies } from "./catalog";
 export { findCurriculumTrack, findTrackForTopicSlug, getCurriculumTracks } from "./curriculum";
 export {
+  badPracticePackages,
+  bugPackages,
+  codingChallenges,
+  countPracticeActivities,
+  getBadPracticePackage,
+  getBugPackage,
+  getCodingChallenge,
   getDailyChallenge,
-  getPracticeSet,
+  getQuizPackage,
   getWeeklyChallenge,
-  listPracticeSets,
+  quizPackages,
   XP,
 } from "./practice";
 export type {
-  CodingExercise,
-  FinderExercise,
-  HtmlCssExercise,
-  PracticeQuestion,
-  PracticeSet,
+  BugKind,
+  CodingChallenge,
+  FinderPackage,
+  PracticeChallenge,
+  QuizItem,
+  QuizPackage,
+  QuizTrack,
+  RevealExercise,
   XpReason,
 } from "./practice";
 export {

@@ -25,13 +25,13 @@ export const GameStrip = ({ game, prepPercent, nextHref, nextTitle }: GameStripP
       <div className="grid gap-3 md:grid-cols-3">
         <ChallengeCard
           eyebrow="Daily"
-          title={daily.set.title}
-          href={`/practice/${daily.set.topicSlug}?challenge=daily`}
+          title={daily.title}
+          href={daily.href}
         />
         <ChallengeCard
           eyebrow="Weekly"
-          title={weekly.set.title}
-          href={`/practice/${weekly.set.topicSlug}?challenge=weekly`}
+          title={weekly.title}
+          href={weekly.href}
         />
         <div className="rounded-2xl border border-border bg-card p-4">
           <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">

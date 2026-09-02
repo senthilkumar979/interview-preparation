@@ -1,11 +1,13 @@
 import {
   experienceLevels,
   getCurriculumTracks,
+  getTopic,
   resolveFramework,
   roles,
   technologies,
   type CurriculumTopic,
   type CurriculumTrack,
+  type ExperienceLevel,
 } from "@prepquest/content";
 import type { AppUser } from "@/lib/session-types";
 
@@ -17,6 +19,8 @@ export interface TrackTopicView {
   summary: string;
   state: TopicChipState;
   href: string | null;
+  levels: ExperienceLevel[];
+  isHighYield: boolean;
 }
 
 export interface TrackView {
@@ -58,7 +62,10 @@ function toTrackView(
   completed: Set<string>,
   currentSlug: string | undefined,
 ): TrackView {
-  const topics = track.topics.map((topic) => toTopicView(topic, completed, currentSlug));
+  const total = track.topics.length;
+  const topics = track.topics.map((topic, topicIndex) =>
+    toTopicView(topic, completed, currentSlug, topicIndex, total),
+  );
   return {
     slug: track.slug,
     title: track.title,
@@ -74,6 +81,8 @@ function toTopicView(
   topic: CurriculumTopic,
   completed: Set<string>,
   currentSlug: string | undefined,
+  topicIndex: number,
+  topicCount: number,
 ): TrackTopicView {
   const state: TopicChipState = !topic.isContentReady
     ? "soon"
@@ -83,13 +92,34 @@ function toTopicView(
         ? "current"
         : "ready";
 
+  const content = getTopic(topic.slug);
+
   return {
     slug: topic.slug,
     title: topic.title,
     summary: topic.summary,
     state,
     href: topic.isContentReady ? `/learn/${topic.slug}` : null,
+    levels: resolveTopicLevels(content?.levels, topicIndex, topicCount),
+    isHighYield: content?.isHighYield ?? false,
   };
+}
+
+function resolveTopicLevels(
+  levels: ExperienceLevel[] | undefined,
+  topicIndex: number,
+  topicCount: number,
+): ExperienceLevel[] {
+  if (levels && levels.length > 0 && levels.length < 4) return levels;
+  return [bandDifficulty(topicIndex, topicCount)];
+}
+
+function bandDifficulty(topicIndex: number, topicCount: number): ExperienceLevel {
+  const ratio = topicCount <= 1 ? 0 : topicIndex / (topicCount - 1);
+  if (ratio < 0.25) return "junior";
+  if (ratio < 0.5) return "medior";
+  if (ratio < 0.75) return "senior";
+  return "expert";
 }
 
 export function roadmapMeta(user: AppUser) {

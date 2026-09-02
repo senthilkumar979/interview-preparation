@@ -5,6 +5,7 @@ import { html } from "@codemirror/lang-html";
 import { javascript } from "@codemirror/lang-javascript";
 import CodeMirror from "@uiw/react-codemirror";
 import type { TopicCodeExample } from "@prepquest/content";
+import { codeMirrorChrome } from "@/lib/codeMirrorChrome";
 
 function languageExtension(language: TopicCodeExample["language"]) {
   if (language === "html") return html();
@@ -41,9 +42,8 @@ export const TopicCodeExampleView = ({ example }: TopicCodeExampleViewProps) => 
         highlightActiveLine: false,
         highlightActiveLineGutter: false,
       }}
-      extensions={[languageExtension(example.language)]}
+      extensions={[languageExtension(example.language), codeMirrorChrome]}
       theme="dark"
-      className="text-sm"
     />
   </figure>
 );

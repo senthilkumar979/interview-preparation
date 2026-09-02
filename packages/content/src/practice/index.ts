@@ -1,26 +1,29 @@
-import { closuresPractice } from "./closures";
-import { cssFlexPractice } from "./css-flex";
-import { eventLoopPractice } from "./event-loop";
-import { fetchPractice } from "./fetch";
-import { htmlFormsPractice } from "./html-forms";
-import type { PracticeSet } from "./types";
+import { badPracticePacks } from "./bad-practice";
+import { bugComponentPack } from "./bugs-component";
+import { bugJsPack, bugTsPack } from "./bugs-functions";
+import { codingChallenges } from "./coding";
+import { quizExpert } from "./quiz-expert";
+import { quizJunior } from "./quiz-junior";
+import { quizMedior } from "./quiz-medior";
+import { quizSenior } from "./quiz-senior";
+import { cssTopicQuizzes, htmlTopicQuizzes, javascriptTopicQuizzes } from "./topic-quizzes";
+import type { CodingChallenge, FinderPackage, QuizPackage } from "./types";
 
-export const practiceSets: PracticeSet[] = [
-  closuresPractice,
-  fetchPractice,
-  eventLoopPractice,
-  htmlFormsPractice,
-  cssFlexPractice,
+export const mixedQuizPackages: QuizPackage[] = [quizJunior, quizMedior, quizSenior, quizExpert];
+export const quizPackages: QuizPackage[] = [
+  ...mixedQuizPackages,
+  ...htmlTopicQuizzes,
+  ...cssTopicQuizzes,
+  ...javascriptTopicQuizzes,
 ];
+export const bugPackages: FinderPackage[] = [bugJsPack, bugTsPack, bugComponentPack];
+export const badPracticePackages: FinderPackage[] = badPracticePacks;
+export { codingChallenges };
 
-const byTopic = new Map(practiceSets.map((set) => [set.topicSlug, set]));
-
-export function getPracticeSet(topicSlug: string): PracticeSet | undefined {
-  return byTopic.get(topicSlug);
-}
-
-export function listPracticeSets(): PracticeSet[] {
-  return practiceSets;
+export interface PracticeChallenge {
+  key: string;
+  title: string;
+  href: string;
 }
 
 function dayKey(date: Date): string {
@@ -36,31 +39,53 @@ function weekKey(date: Date): string {
   return `${utc.getUTCFullYear()}-W${String(week).padStart(2, "0")}`;
 }
 
-function pick(seed: string, items: PracticeSet[]): PracticeSet {
+function pickIndex(seed: string, length: number): number {
   let hash = 0;
   for (const char of seed) hash = (hash * 31 + char.charCodeAt(0)) | 0;
-  const index = Math.abs(hash) % items.length;
-  return items[index] ?? items[0];
+  return Math.abs(hash) % length;
 }
 
-export function getDailyChallenge(date = new Date()): { key: string; set: PracticeSet } {
+export function getQuizPackage(slug: string): QuizPackage | undefined {
+  return quizPackages.find((pack) => pack.slug === slug);
+}
+
+export function getBugPackage(slug: string): FinderPackage | undefined {
+  return bugPackages.find((pack) => pack.slug === slug);
+}
+
+export function getBadPracticePackage(slug: string): FinderPackage | undefined {
+  return badPracticePackages.find((pack) => pack.slug === slug);
+}
+
+export function getCodingChallenge(id: string): CodingChallenge | undefined {
+  return codingChallenges.find((item) => item.id === id);
+}
+
+export function getDailyChallenge(date = new Date()): PracticeChallenge {
   const key = dayKey(date);
-  return { key, set: pick(`daily:${key}`, practiceSets) };
+  const pack = mixedQuizPackages[pickIndex(`daily:${key}`, mixedQuizPackages.length)] ?? mixedQuizPackages[0];
+  return { key, title: pack.title, href: `/practice/quiz/${pack.slug}?challenge=daily` };
 }
 
-export function getWeeklyChallenge(date = new Date()): { key: string; set: PracticeSet } {
+export function getWeeklyChallenge(date = new Date()): PracticeChallenge {
   const key = weekKey(date);
-  const withCode = practiceSets.filter((set) => set.coding);
-  return { key, set: pick(`weekly:${key}`, withCode.length ? withCode : practiceSets) };
+  const item = codingChallenges[pickIndex(`weekly:${key}`, codingChallenges.length)] ?? codingChallenges[0];
+  return { key, title: item.title, href: `/practice/coding/${item.id}?challenge=weekly` };
+}
+
+export function countPracticeActivities(): number {
+  const quiz = quizPackages.reduce((sum, pack) => sum + pack.questions.length, 0);
+  return quiz + codingChallenges.length;
 }
 
 export { XP } from "./types";
 export type {
-  CodingExercise,
-  FinderExercise,
-  HtmlCssExercise,
-  McqOption,
-  PracticeQuestion,
-  PracticeSet,
+  BugKind,
+  CodingChallenge,
+  FinderPackage,
+  QuizItem,
+  QuizPackage,
+  QuizTrack,
+  RevealExercise,
   XpReason,
 } from "./types";
